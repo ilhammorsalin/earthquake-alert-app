@@ -10,7 +10,7 @@ export async function fetchEarthquakes(filter: EarthquakeFilter): Promise<Earthq
   
   // Calculate start time based on range
   const now = new Date();
-  let startTime = new Date();
+  const startTime = new Date();
   
   switch (filter.timeRange) {
     case 'hour':
@@ -41,8 +41,21 @@ export async function fetchEarthquakes(filter: EarthquakeFilter): Promise<Earthq
     const data = await response.json();
     
     // Transform GeoJSON to our Earthquake interface
-    return data.features.map((feature: any) => {
-      const { mag, place, time, alert, url, detail } = feature.properties;
+    interface GeoJSONFeature {
+      id: string;
+      properties: {
+        mag: number;
+        place: string;
+        time: number;
+        alert?: string;
+      };
+      geometry: {
+        coordinates: [number, number, number];
+      };
+    }
+    
+    return data.features.map((feature: GeoJSONFeature) => {
+      const { mag, place, time, alert } = feature.properties;
       const [lng, lat, depth] = feature.geometry.coordinates;
 
       // Determine alert level if not provided by API (API often returns null for alert)
