@@ -91,8 +91,10 @@ function generateAftershockTime(): Date {
   
   // Power-law distribution: t = t_min * (1 - u)^(-1/(p-1))
   const u = Math.random();
-  const p = 1.1;
-  const timeOffset = (maxTime / 1000) * Math.pow(u, 1 / (1 - p)) * 1000;
+  const p = 1.1; // Omori's p parameter (typically 1.0-1.2)
+  // Safety: ensure p != 1 to avoid division by zero
+  const exponent = Math.abs(p - 1) < 0.01 ? -10 : 1 / (1 - p);
+  const timeOffset = (maxTime / 1000) * Math.pow(u, exponent) * 1000;
   
   return new Date(now.getTime() + timeOffset);
 }
