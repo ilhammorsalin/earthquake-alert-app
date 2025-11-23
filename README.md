@@ -22,6 +22,14 @@ First, install dependencies:
 npm install
 ```
 
+Set up environment variables (optional but recommended):
+
+```bash
+cp .env.example .env.local
+```
+
+This disables Next.js telemetry to prevent `ERR_BLOCKED_BY_CLIENT` errors from privacy extensions.
+
 Then, run the development server:
 
 ```bash
