@@ -22,7 +22,7 @@ First, install dependencies:
 npm install
 ```
 
-Set up environment variables (optional but recommended):
+Set up environment variables (recommended to prevent browser extension conflicts):
 
 ```bash
 cp .env.example .env.local
